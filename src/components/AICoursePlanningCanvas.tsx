@@ -78,7 +78,7 @@ export function AICoursePlanningCanvas({
             setCurrentVersion(canvas.version || "1.0");
             setIsPublic(canvas.isPublic !== undefined ? canvas.isPublic : true);
           }
-          console.log(canvas)
+          // console.log(canvas)
         } catch (error) {
           console.error("Error loading canvas content:", error);
           toast.error("Failed to load canvas content");
@@ -183,7 +183,7 @@ export function AICoursePlanningCanvas({
   const formattedDate = canvasData?.createdAt 
     ? format(new Date(canvasData.createdAt), 'yyyy-MM-dd')
     : undefined;
-    console.log(canvasData.originalCanvasId)
+    // console.log(canvasData.originalCanvasId)
 
   return (
     <div className="max-w-[1200px] mx-auto">
