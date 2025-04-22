@@ -1,0 +1,122 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+
+    --primary: 257 68% 73%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 257 68% 73%;
+
+    --radius: 1rem;
+  }
+
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 257 68% 73%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 257 68% 73%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+}
+
+@layer components {
+  .story-link {
+    @apply relative inline-block after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-primary after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left;
+  }
+  
+  .hover-scale {
+    @apply transition-transform duration-200 hover:scale-105;
+  }
+  
+  .canvas-card {
+    @apply relative overflow-hidden rounded-xl transition-all duration-300 hover:shadow-lg hover:scale-[1.02] cursor-pointer;
+    background-color: #2A2F3C; /* Dark background base color */
+  }
+
+  .canvas-card-gradient-1 {
+    background: linear-gradient(135deg, #8A2387 0%, #E94057 50%, #F27121 100%);
+    box-shadow: 0 4px 12px rgba(233, 64, 87, 0.3);
+  }
+  
+  .canvas-card-gradient-2 {
+    background: linear-gradient(135deg, #00B4DB 0%, #0083B0 100%);
+    box-shadow: 0 4px 12px rgba(0, 180, 219, 0.3);
+  }
+  
+  .canvas-card-gradient-3 {
+    background: linear-gradient(135deg, #FF416C 0%, #FF4B2B 100%);
+    box-shadow: 0 4px 12px rgba(255, 65, 108, 0.3);
+  }
+  
+  .canvas-card-gradient-4 {
+    background: linear-gradient(135deg, #4776E6 0%, #8E54E9 100%);
+    box-shadow: 0 4px 12px rgba(142, 84, 233, 0.3);
+  }
+  
+  .canvas-card-gradient-5 {
+    background: linear-gradient(135deg, #834d9b 0%, #d04ed6 100%);
+    box-shadow: 0 4px 12px rgba(208, 78, 214, 0.3);
+  }
+  
+  .canvas-card-gradient-6 {
+    background: linear-gradient(135deg, #f7b733 0%, #fc4a1a 100%);
+    box-shadow: 0 4px 12px rgba(252, 74, 26, 0.3);
+  }
+}
