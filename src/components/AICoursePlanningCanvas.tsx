@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from "react";
-import { 
+import {
   Users, BookOpen, GraduationCap, Database, Code, CircleHelp,
   ShieldAlert, Library, Target, Cog, Route, PaintBucket,
   Edit, Save, EyeIcon, EyeOffIcon,
@@ -27,8 +27,8 @@ interface AICoursePlanningCanvasProps {
   onVisibilityChange?: (isPublic: boolean) => void;
 }
 
-export function AICoursePlanningCanvas({ 
-  isEditing = false, 
+export function AICoursePlanningCanvas({
+  isEditing = false,
   onSave,
   onTitleChange,
   onVersionChange,
@@ -59,6 +59,7 @@ export function AICoursePlanningCanvas({
   const [isPublic, setIsPublic] = useState<boolean>(true);
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [authorName, setAuthorName] = useState<string>("");
+  const [originalCanvasTitle, setOriginalCanvasTitle] = useState('');
 
   useEffect(() => {
     if (id) {
@@ -69,10 +70,10 @@ export function AICoursePlanningCanvas({
           if (content) {
             setValues(content);
           }
-          
+
           const canvas = getCanvas(id);
           setCanvasData(canvas);
-          
+
           if (canvas) {
             setCurrentTitle(canvas.title || "");
             setCurrentVersion(canvas.version || "1.0");
@@ -86,7 +87,7 @@ export function AICoursePlanningCanvas({
           setIsLoading(false);
         }
       };
-      
+
       loadCanvasContent();
     }
   }, [id, fetchCanvasContent, getCanvas]);
@@ -169,6 +170,20 @@ export function AICoursePlanningCanvas({
     }
   }, [isEditing, id, isLoading, hasUnsavedChanges]);
 
+  const fetchOriginalCanvasTitle = async (canvasId) => {
+    const { data, error } = await supabase
+      .from('canvases')
+      .select('title')
+      .eq('id', canvasId)
+      .single();
+
+    if (error) {
+      console.error('Error fetching original canvas title:', error);
+    } else {
+      setOriginalCanvasTitle(data.title);
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="h-[200px] flex items-center justify-center">
@@ -180,10 +195,17 @@ export function AICoursePlanningCanvas({
     );
   }
 
-  const formattedDate = canvasData?.createdAt 
+  const formattedDate = canvasData?.createdAt
     ? format(new Date(canvasData.createdAt), 'yyyy-MM-dd')
     : undefined;
-    // console.log(canvasData.originalCanvasId)
+  // console.log(canvasData.originalCanvasId)
+
+  // Immediately invoke the function when the component renders
+  if (canvasData.originalCanvasId) {
+    (async () => {
+      await fetchOriginalCanvasTitle(canvasData.originalCanvasId);
+    })();
+  }
 
   return (
     <div className="max-w-[1200px] mx-auto">
@@ -193,16 +215,8 @@ export function AICoursePlanningCanvas({
           <div className="flex-1">
             <h1 className="text-2xl font-bold">The AI Course Design Planning Framework</h1>
           </div>
-          {isEditing && (
-            <div className="mt-2 md:mt-0 flex items-center gap-2">
-              <Button variant="outline" size="sm" onClick={handleSave}>
-                <Save className="mr-2 h-4 w-4" />
-                Save Changes
-              </Button>
-            </div>
-          )}
         </div>
-        
+
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
           <div>
             <div className="space-y-2">
@@ -220,13 +234,13 @@ export function AICoursePlanningCanvas({
                   <span className="font-medium">{currentTitle || canvasData?.title || "Introduction to AI"}</span>
                 )}
               </div>
-              
+
               <div className="flex flex-col space-y-1">
                 <span className="text-sm text-muted-foreground">Author</span>
                 <span className="font-medium">{authorName || "Anonymous"}</span>
               </div>
-              
-              
+
+
               {isEditing && user && (
                 <div className="flex items-center space-x-2 pt-2">
                   <Switch
@@ -251,7 +265,7 @@ export function AICoursePlanningCanvas({
               )}
             </div>
           </div>
-          
+
           <div>
             <div className="space-y-2">
               <div className="flex flex-col space-y-1">
@@ -268,15 +282,15 @@ export function AICoursePlanningCanvas({
                   <span className="font-medium">{currentVersion || canvasData?.version || "1.0"}</span>
                 )}
               </div>
-              
+
               {formattedDate && (
                 <div className="flex flex-col space-y-1">
                   <span className="text-sm text-muted-foreground">Date</span>
                   <span className="font-medium">{formattedDate}</span>
                 </div>
               )}
-              
-              {!isEditing && user && canvasData?.userId === user?.id && (
+
+              {/* {!isEditing && user && canvasData?.userId === user?.id && (
                 <div className="flex items-center space-x-2 pt-2">
                   <div className="flex items-center space-x-1 text-sm">
                     <span className="text-muted-foreground">Visibility:</span>
@@ -293,7 +307,7 @@ export function AICoursePlanningCanvas({
                     )}
                   </div>
                 </div>
-              )}
+              )} */}
             </div>
           </div>
         </div>
@@ -314,7 +328,7 @@ export function AICoursePlanningCanvas({
               value={values.domain}
               onChange={(value) => handleValueChange("domain", value)}
             />
-            
+
             <CanvasItem
               title="Potential AI Use Cases"
               description="What are potential use cases of using AI in the domain?"
@@ -425,24 +439,24 @@ export function AICoursePlanningCanvas({
       </div>
 
       {canvasData.originalCanvasId ? (<div className="flex items-center justify-center mt-8 text-sm text-muted-foreground">
-          <p>
-            This is a copy of{" "}
-            <a
-              href={`/canvas/${canvasData.originalCanvasId}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-primary hover:underline inline-flex items-center"
-            >
-              
-              {/* {originalCanvasTitle} */}
-              <ExternalLink className="ml-1 h-3 w-3" />
-            </a>
-          </p>
-          
-        </div>) : (<div></div>)
-        }
-      
-        
+        <p>
+          This is a copy of {originalCanvasTitle}
+          <a
+            href={`/canvas/${canvasData.originalCanvasId}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary hover:underline inline-flex items-center"
+          >
+
+            {/* {originalCanvasTitle} */}
+            <ExternalLink className="ml-1 h-3 w-3" />
+          </a>
+        </p>
+
+      </div>) : (<div></div>)
+      }
+
+
     </div>
   );
 }

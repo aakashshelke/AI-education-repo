@@ -59,6 +59,7 @@ export default function ProfilePage() {
     return () => {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
+    
   }, [isAuthenticated, user, fetchUserCanvases]);
 
   const handleCreateCanvas = async () => {
@@ -91,23 +92,14 @@ export default function ProfilePage() {
         isPublic: false // Default to private canvas
       };
       
-      await addCanvas(newCanvas);
+      // await addCanvas(newCanvas);
+      const createdCanvas = await addCanvas(newCanvas);
       toast.success("New canvas created successfully");
       
-      // Refresh user canvases and then sort them
-      await fetchUserCanvases(user.id);
-      
-      // Find the newly created canvas (should be the most recent one)
-      if (userCanvases.length > 0) {
-        // Sort by creation date (newest first) and get the first one
-        const sortedCanvases = [...userCanvases].sort((a, b) => {
-          const dateA = a.createdAt ? new Date(a.createdAt) : new Date();
-          const dateB = b.createdAt ? new Date(b.createdAt) : new Date();
-          return dateB.getTime() - dateA.getTime();
-        });
-        
-        // Navigate to the edit page for the new canvas
-        navigate(`/canvas/${sortedCanvases[-1].id}`);
+      // Refresh user canvases to get the newly created canvas
+      // await fetchUserCanvases(user.id);
+      if (createdCanvas?.id) {
+        navigate(`/canvas/${createdCanvas.id}`);
       }
     } catch (error) {
       console.error("Error creating canvas:", error);
@@ -116,6 +108,16 @@ export default function ProfilePage() {
       setIsCreatingCanvas(false);
     }
   };
+      
+  //     // Navigate to the profile page to see the new canvas
+  //     navigate("/mycanvases");
+  //   } catch (error) {
+  //     console.error("Error creating canvas:", error);
+  //     toast.error("Failed to create new canvas");
+  //   } finally {
+  //     setIsCreatingCanvas(false);
+  //   }
+  // };
 
   const handleDeleteCanvas = async (canvasId: string) => {
     setCanvasToDelete(canvasId);
@@ -149,6 +151,7 @@ export default function ProfilePage() {
       
       // Refresh canvases list
       if (user) {
+        
         await fetchUserCanvases(user.id);
       }
     } catch (error) {

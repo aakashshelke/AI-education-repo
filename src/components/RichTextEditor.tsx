@@ -42,6 +42,7 @@ export function RichTextEditor({ value, onChange, placeholder }: RichTextEditorP
     <div className="border rounded-md focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 ring-offset-background">
       <div className="flex flex-wrap gap-1 p-1 border-b bg-muted/50">
         <Button
+          tabIndex={-1}
           type="button"
           variant="ghost"
           size="sm"
@@ -51,6 +52,7 @@ export function RichTextEditor({ value, onChange, placeholder }: RichTextEditorP
           <Bold className="h-4 w-4" />
         </Button>
         <Button
+          tabIndex={-1}
           type="button"
           variant="ghost"
           size="sm"
@@ -60,6 +62,7 @@ export function RichTextEditor({ value, onChange, placeholder }: RichTextEditorP
           <Italic className="h-4 w-4" />
         </Button>
         <Button
+          tabIndex={-1}
           type="button"
           variant="ghost"
           size="sm"
@@ -69,6 +72,7 @@ export function RichTextEditor({ value, onChange, placeholder }: RichTextEditorP
           <UnderlineIcon className="h-4 w-4" />
         </Button>
         <Button
+          tabIndex={-1}
           type="button"
           variant="ghost"
           size="sm"
@@ -78,6 +82,7 @@ export function RichTextEditor({ value, onChange, placeholder }: RichTextEditorP
           <List className="h-4 w-4" />
         </Button>
         <Button
+          tabIndex={-1}
           type="button"
           variant="ghost"
           size="sm"

@@ -13,7 +13,8 @@ interface CanvasState {
   fetchUserCanvases: (userId: string) => Promise<void>;
   fetchCanvasContent: (canvasId: string) => Promise<CanvasContent | null>;
   saveCanvasContent: (content: CanvasContent, userId?: string, isPublic?: boolean) => Promise<CanvasContent | null>;
-  addCanvas: (canvas: Canvas) => Promise<void>;
+  // addCanvas: (canvas: Canvas) => Promise<void>;
+  addCanvas: (canvas: Canvas) => Promise<Canvas | null>;
   removeCanvas: (id: string) => Promise<void>;
   getCanvas: (id: string) => Canvas | undefined;
   getUserCanvases: (userId: string) => Canvas[];
@@ -97,11 +98,16 @@ export const useCanvasStore = create<CanvasState>((set, get) => ({
           }
           return { canvases: [...state.canvases, newCanvas] };
         });
+        return newCanvas;
       }
+      return null;
     } catch (error) {
       console.error('Error in addCanvas:', error);
       toast.error('Failed to create canvas');
     }
+    return null;
+
+    
   },
   
   removeCanvas: async (id) => {

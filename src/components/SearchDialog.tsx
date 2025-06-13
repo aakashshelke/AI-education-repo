@@ -1,5 +1,4 @@
-
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -21,18 +20,41 @@ export function SearchDialog({
   onOpenChange: (open: boolean) => void;
 }) {
   const [searchQuery, setSearchQuery] = useState("");
+  const [highlightedIndex, setHighlightedIndex] = useState(-1);
   const { canvases } = useCanvasStore();
   const navigate = useNavigate();
-  
-  const filteredCanvases = canvases.filter(canvas => 
+  const inputRef = useRef(null);
+
+  const filteredCanvases = canvases.filter((canvas) =>
     canvas.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
     canvas.description.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const handleCanvasSelect = (id: string) => {
+  const handleCanvasSelect = (id) => {
     navigate(`/canvas/${id}`);
     onOpenChange(false);
   };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setHighlightedIndex((prevIndex) =>
+        prevIndex < filteredCanvases.length - 1 ? prevIndex + 1 : prevIndex
+      );
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setHighlightedIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : -1));
+    } else if (e.key === "Enter" && highlightedIndex >= 0) {
+      e.preventDefault();
+      handleCanvasSelect(filteredCanvases[highlightedIndex].id);
+    }
+  };
+
+  useEffect(() => {
+    if (open && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [open]);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -45,11 +67,16 @@ export function SearchDialog({
         </DialogHeader>
         <div className="px-4 py-4 flex items-center border-b">
           <Search className="h-4 w-4 mr-2 flex-shrink-0 text-muted-foreground" />
-          <Input 
+          <Input
+            ref={inputRef}
             placeholder="Search templates..."
             className="border-0 focus-visible:ring-0 focus-visible:ring-transparent shadow-none"
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={(e) => {
+              setSearchQuery(e.target.value);
+              setHighlightedIndex(-1);
+            }}
+            onKeyDown={handleKeyDown}
           />
         </div>
         <div className="max-h-[300px] overflow-y-auto">
@@ -59,11 +86,13 @@ export function SearchDialog({
             </div>
           ) : (
             <div className="grid grid-cols-1 gap-2 p-4">
-              {filteredCanvases.map((canvas) => (
+              {filteredCanvases.map((canvas, index) => (
                 <Button
                   key={canvas.id}
                   variant="ghost"
-                  className="justify-start px-4 py-6 h-auto text-left"
+                  className={`justify-start px-4 py-6 h-auto text-left ${
+                    index === highlightedIndex ? "bg-gray-200" : ""
+                  }`}
                   onClick={() => handleCanvasSelect(canvas.id)}
                 >
                   <div>

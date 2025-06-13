@@ -61,7 +61,7 @@ const App = () => (
                 <Route path="/login" element={<LoginPage />} />
                 <Route element={<Layout />}>
                   <Route path="/home" element={<HomePage />} />
-                  <Route path="/profile" element={<ProfilePage />} />
+                  <Route path="/mycanvases" element={<ProfilePage />} />
                   <Route path="/canvas/:id" element={<CanvasPage />} />
                   <Route path="*" element={<NotFound />} />
                 </Route>

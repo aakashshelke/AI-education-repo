@@ -35,7 +35,7 @@ export function Navbar() {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between">
         <div className="flex items-center gap-2">
-          <Link to="/" className="text-xl font-semibold tracking-tight">
+          <Link to="/home" className="text-xl font-semibold tracking-tight">
             Educational AI Repository
           </Link>
         </div>
@@ -66,9 +66,9 @@ export function Navbar() {
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
-                  <Link to="/profile" className="cursor-pointer w-full">
+                  <Link to="/mycanvases" className="cursor-pointer w-full">
                     <User className="mr-2 h-4 w-4" />
-                    Profile
+                    My Canvases
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
