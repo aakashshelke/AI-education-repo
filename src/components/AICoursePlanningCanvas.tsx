@@ -61,6 +61,26 @@ export function AICoursePlanningCanvas({
   const [authorName, setAuthorName] = useState<string>("");
   const [originalCanvasTitle, setOriginalCanvasTitle] = useState('');
 
+  // Check if a section is complete (all fields have content)
+  const isSection1Complete = () => {
+    return values.domain.trim() !== "" && 
+           values.potentialUseCase.trim() !== "" && 
+           values.domainData.trim() !== "" && 
+           values.implications.trim() !== "" && 
+           values.resources.trim() !== "";
+  };
+
+  const isSection2Complete = () => {
+    return values.learners.trim() !== "" && 
+           values.instructors.trim() !== "" && 
+           values.support.trim() !== "";
+  };
+
+  // Determine which sections should be enabled
+  const section1Enabled = true; // Always enabled
+  const section2Enabled = !isEditing || isSection1Complete();
+  const section3Enabled = !isEditing || (isSection1Complete() && isSection2Complete());
+
   useEffect(() => {
     if (id) {
       const loadCanvasContent = async () => {
@@ -324,7 +344,9 @@ export function AICoursePlanningCanvas({
               title="Domain"
               description="With which domain is the course associated?"
               icon={<PaintBucket size={16} />}
-              isEditing={isEditing}
+              // isEditing={isEditing}
+              isEditing={isEditing && section1Enabled}
+              isDisabled={isEditing && !section1Enabled}
               value={values.domain}
               onChange={(value) => handleValueChange("domain", value)}
             />
@@ -333,7 +355,9 @@ export function AICoursePlanningCanvas({
               title="Potential AI Use Cases"
               description="What are potential use cases of using AI in the domain?"
               icon={<CircleHelp size={16} />}
-              isEditing={isEditing}
+              // isEditing={isEditing}
+              isEditing={isEditing && section1Enabled}
+              isDisabled={isEditing && !section1Enabled}
               value={values.potentialUseCase}
               onChange={(value) => handleValueChange("potentialUseCase", value)}
             />
@@ -342,7 +366,9 @@ export function AICoursePlanningCanvas({
               title="Data in the Domain"
               description="What type of data is most common in the domain? Is data in the domain abundant or scarce?"
               icon={<Database size={16} />}
-              isEditing={isEditing}
+              // isEditing={isEditing}
+              isEditing={isEditing && section1Enabled}
+              isDisabled={isEditing && !section1Enabled}
               value={values.domainData}
               onChange={(value) => handleValueChange("domainData", value)}
             />
@@ -351,7 +377,9 @@ export function AICoursePlanningCanvas({
               title="Implications of using AI in the Domain"
               description="What implications (ethical, legal, social) does the use of AI have in the domain / the use case?"
               icon={<ShieldAlert size={16} />}
-              isEditing={isEditing}
+              // isEditing={isEditing}
+              isEditing={isEditing && section1Enabled}
+              isDisabled={isEditing && !section1Enabled}
               value={values.implications}
               onChange={(value) => handleValueChange("implications", value)}
             />
@@ -360,7 +388,9 @@ export function AICoursePlanningCanvas({
               title="Additional Learning Resources"
               description="What additional (external) material or resources could be used? What Open Educational Resources could be helpful?"
               icon={<Library size={16} />}
-              isEditing={isEditing}
+              // isEditing={isEditing}
+              isEditing={isEditing && section1Enabled}
+              isDisabled={isEditing && !section1Enabled}
               value={values.resources}
               onChange={(value) => handleValueChange("resources", value)}
             />
@@ -377,7 +407,9 @@ export function AICoursePlanningCanvas({
               title="Learners and their Interaction with AI"
               description="What existing AI knowledge and skills do the learners have? What other related skills and knowledge do the learners have? What role in the AI interaction are learners supposed to take after completing the course?"
               icon={<Users size={16} />}
-              isEditing={isEditing}
+              // isEditing={isEditing}
+              isEditing={isEditing && section2Enabled}
+              isDisabled={isEditing && !section2Enabled}
               value={values.learners}
               onChange={(value) => handleValueChange("learners", value)}
             />
@@ -386,7 +418,9 @@ export function AICoursePlanningCanvas({
               title="Instructors"
               description="What AI-related skills and competencies do the instructors have?"
               icon={<GraduationCap size={16} />}
-              isEditing={isEditing}
+              // isEditing={isEditing}
+              isEditing={isEditing && section2Enabled}
+              isDisabled={isEditing && !section2Enabled}
               value={values.instructors}
               onChange={(value) => handleValueChange("instructors", value)}
             />
@@ -395,7 +429,9 @@ export function AICoursePlanningCanvas({
               title="Internal Support"
               description="What time and AI-related resources are available? What AI-related data is available for the course? What support does the institution or the network provide?"
               icon={<Cog size={16} />}
-              isEditing={isEditing}
+              // isEditing={isEditing}
+              isEditing={isEditing && section2Enabled}
+              isDisabled={isEditing && !section2Enabled}
               value={values.support}
               onChange={(value) => handleValueChange("support", value)}
             />
@@ -412,7 +448,9 @@ export function AICoursePlanningCanvas({
               title="Learning Outcomes"
               description="What are the relevant learning outcomes of the course?"
               icon={<Target size={16} />}
-              isEditing={isEditing}
+              // isEditing={isEditing}
+              isEditing={isEditing && section3Enabled}
+              isDisabled={isEditing && !section3Enabled}
               value={values.outcomes}
               onChange={(value) => handleValueChange("outcomes", value)}
             />
@@ -421,7 +459,9 @@ export function AICoursePlanningCanvas({
               title="Assessment"
               description="How will the learning outcomes be assessed?"
               icon={<BookOpen size={16} />}
-              isEditing={isEditing}
+              // isEditing={isEditing}
+              isEditing={isEditing && section3Enabled}
+              isDisabled={isEditing && !section3Enabled}
               value={values.assessment}
               onChange={(value) => handleValueChange("assessment", value)}
             />
@@ -430,7 +470,9 @@ export function AICoursePlanningCanvas({
               title="Learning Activities"
               description="What learning activities will be included in the course? What didactical approach will be taken?"
               icon={<BookOpen size={16} />}
-              isEditing={isEditing}
+              // isEditing={isEditing}
+              isEditing={isEditing && section3Enabled}
+              isDisabled={isEditing && !section3Enabled}
               value={values.activities}
               onChange={(value) => handleValueChange("activities", value)}
             />
