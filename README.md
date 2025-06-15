@@ -179,7 +179,7 @@ npm run build
 ## Sample Results
 
 ### Example Canvas: "Predictive Maintenance for Engineers"
-![[Screenshot.jpg]]
+![Example Canvas](Screenshot.jpg)
 
 ## Limitations & Future Work
 
