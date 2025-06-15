@@ -150,7 +150,7 @@ npm run preview  # Test production build locally
   - Design learning activities
 
 #### Flowchart of the web application:
-!(flowchart.jpg)
+![Flowchart](flowchart.jpg)
 
 #### Canvas Management
 - **Save Changes**: Automatic saving in view mode, manual save in edit mode
