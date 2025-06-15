@@ -128,7 +128,7 @@ export default function HomePage() {
           </h1>
         </div>
         <p className="text-lg text-muted-foreground max-w-[85%] mx-auto">
-          Discover interactive AI learning resources, tutorials, and educational content
+          Where educators design, and ideas take flight—discover dynamic canvases built for impact.
         </p>
       </motion.div>
 
